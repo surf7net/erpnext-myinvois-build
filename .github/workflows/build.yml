@@ -21,6 +21,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --- THIS IS THE NEW STEP TO PREVENT THE CRASH ---
+      - name: Allocate Swap Space to prevent OOM
+        run: |
+          sudo fallocate -l 4G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
