@@ -21,7 +21,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --- THIS IS THE NEW STEP TO PREVENT THE CRASH ---
+      - name: Free Disk Space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo apt-get clean
+          df -h
+
       - name: Allocate Swap Space to prevent OOM
         run: |
           sudo fallocate -l 4G /swapfile
